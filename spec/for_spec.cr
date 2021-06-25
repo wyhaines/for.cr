@@ -54,9 +54,9 @@ describe For do
     t = uninitialized Int32
     transform = for(->{ t = 0 }, ->{ t < 10 }, ->{ t += 1 }, run: false) { ary[t] = ary[t] * ary[t] }
 
-    transform.call
-    transform.call
-    transform.call
+    for(%(count = 0), %(count < 3), %(count += 1)) do
+      transform.call
+    end
 
     ary.should eq [1, 256, 6561, 65536, 390625, 1679616, 5764801, 16777216, 43046721, 100000000]
   end
