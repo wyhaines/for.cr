@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.36.1">
+<meta name="crystal_docs.project_version" content="0.1.0">
+<meta name="crystal_docs.project_name" content="for">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="for">
+  <title>Top Level Namespace - for 0.1.0</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          for
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.1.0
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" current" data-id="for/toplevel" data-name="top level namespace">
+      <a href="toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="for/For" data-name="for">
+      <a href="For.html">For</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  Top Level Namespace
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#for(init,test,update,run=true,&blk)-macro" class="signature"><strong>for</strong>(init, test, update, run = <span class="n">true</span>, &blk)</a>
+        
+          <div class="summary"><p>This <code><a href="toplevel.html#for(init,test,update,run=true,&blk)-macro">for</a></code> implementation provides a C-like looping structure.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#iterate(*elements,&blk)-macro" class="signature"><strong>iterate</strong>(*elements, &blk)</a>
+        
+          <div class="summary"><p>This is a <em>for</em> style loop that iterates over all of the members of a collection.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#using(target)-macro" class="signature"><strong>using</strong>(target)</a>
+        
+          <div class="summary"><p>Syntactic sugar macro.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="for(init,test,update,run=true,&amp;blk)-macro">
+      <div class="signature">
+        
+        macro <strong>for</strong>(init, test, update, run = <span class="n">true</span>, &blk)
+
+        <a class="method-permalink" href="#for(init,test,update,run=true,&blk)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>This <code><a href="toplevel.html#for(init,test,update,run=true,&blk)-macro">for</a></code> implementation provides a C-like looping structure.</p>
+
+<p><em>for(<em>initialization</em>, <em>test</em>, <em>update</em>) { # block contents to iterate on }</em></p>
+
+<p>The <em>initialization</em>, *test, and <em>update</em> items are code that will be evaluated
+during the execution of the loop. The code should be provided as either a <em>String</em>
+or a <em>Proc(Nil, Nil)</em>.</p>
+
+<p>The <em>initialization</em> code gets executed a single time, before the loop starts, and
+can be used to setup any state that is required before the loop runs.</p>
+
+<p>The <em>test</em> code will be evaluated at the start of each iteration. If it evaluates to
+<em>false</em>, then the loop body will execute. If it evaluates to <em>true</em> then the loop
+exits immediately.</p>
+
+<p>The <em>update</em> code executes after the loop body, and can be used to change counters
+or other state that the <em>test</em> code may depend on to determine if the loop has finished
+execution.</p>
+
+<p>This structure could be legitimately useful. The loop so created is a closure, and
+can be captured in a variable.</p>
+
+<pre><code class="language-crystal"><span class="c"># Specify code with strings.</span>
+<span class="k">for</span>(<span class="s">%(t = 0)</span>, <span class="s">%( t &lt; 10)</span>, <span class="s">%(t += 1)</span>) <span class="k">do</span>
+  <span class="c"># Do Stuff</span>
+<span class="k">end</span></code></pre>
+
+<pre><code class="language-crystal"><span class="c"># Specify code with procs, and leverage the fact that it is a closure.</span>
+t <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
+<span class="k">for</span>(->{ t <span class="o">=</span> <span class="n">0</span> }, ->{ t <span class="o">&lt;</span> <span class="n">10</span> }, ->{ t += <span class="n">1</span> }) <span class="k">do</span>
+  <span class="c"># Do Stuff</span>
+<span class="k">end</span>
+puts t
+<span class="c"># =&gt; 10</span></code></pre>
+
+<pre><code class="language-crystal"><span class="c"># The *for* loop can be assigned to a variable and called later.</span>
+ary <span class="o">=</span> (<span class="n">1</span>..<span class="n">10</span>).to_a
+
+t <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
+transform <span class="o">=</span> <span class="k">for</span>(->{ t <span class="o">=</span> <span class="n">0</span> }, ->{ t <span class="o">&lt;</span> <span class="n">10</span> }, ->{ t += <span class="n">1</span> }, run: <span class="n">false</span>) { ary[t] <span class="o">=</span> ary[t] <span class="o">*</span> ary[t] }
+
+<span class="c"># Do some stuff here...</span>
+
+transform.call
+
+pp ary
+<span class="c"># =&gt; [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="iterate(*elements,&amp;blk)-macro">
+      <div class="signature">
+        
+        macro <strong>iterate</strong>(*elements, &blk)
+
+        <a class="method-permalink" href="#iterate(*elements,&blk)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>This is a <em>for</em> style loop that iterates over all of the members of a collection.</p>
+
+<pre><code class="language-crystal">ary <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+
+iterate(num, using ary) { puts num }
+
+<span class="c"># This is the same as:</span>
+
+ary.each { <span class="o">|</span>num<span class="o">|</span> puts num }</code></pre>
+
+<p>This works with any collection that has an <code>#each</code> method.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="using(target)-macro">
+      <div class="signature">
+        
+        macro <strong>using</strong>(target)
+
+        <a class="method-permalink" href="#using(target)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Syntactic sugar macro. <code>using foo</code> results in inserting <code>foo</code> where it is executed.
+This means that the following are equivalent:</p>
+
+<pre><code class="language-crystal"><span class="k">for</span>(count, ary) { puts count }
+
+<span class="k">for</span>(count, using ary) { puts count }</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>
