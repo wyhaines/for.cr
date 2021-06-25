@@ -25,7 +25,7 @@ It implements a simple declarative style for-like iteration loop called `iterate
 require "for"
 ```
 
-This defines three macros at the top level.
+This defines four macros at the top level.
 
 ### using
 
@@ -119,6 +119,23 @@ pp ary
 # => [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 ```
 
+### do_until
+
+The `do_until` loop is like the `for` loop, except that it is an exit-controlled loop. This means that the condition to test for exiting the loop is checked at the end of the loop body instead of at the beginning of the loop body. This guarantees that the loop body will execute at least one time. Additionally, the loop will be exited _when_ the condition is true.
+
+Thus, it is functionally the opposite of a *for* loop.
+
+```crystal
+t = uninitialized Int32
+do_until(->(){ t = 1 }, ->(){ t > 0 }, ->{ t += 1}) {puts t}
+
+# => 1
+
+puts t
+
+# => 2
+
+```
 
 ## Contributing
 

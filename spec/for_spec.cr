@@ -60,4 +60,15 @@ describe For do
 
     ary.should eq [1, 256, 6561, 65536, 390625, 1679616, 5764801, 16777216, 43046721, 100000000]
   end
+
+  it "can run a do/until loop" do
+    t = uninitialized Int32
+    flag = uninitialized Bool
+    do_until(%(t = 0), %(t == 0)) do
+      flag = true
+    end
+
+    flag.should be_true
+    t.should eq 0
+  end
 end
