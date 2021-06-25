@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 0.36.1">
-<meta name="crystal_docs.project_version" content="0.1.0">
+<meta name="crystal_docs.project_version" content="0.2.0">
 <meta name="crystal_docs.project_name" content="for">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="for">
-  <title>Top Level Namespace - for 0.1.0</title>
+  <title>Top Level Namespace - for 0.2.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        0.1.0
+        0.2.0
       </span>
     </div>
   </div>
@@ -122,9 +122,16 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#for(init,test,update,run=true,&blk)-macro" class="signature"><strong>for</strong>(init, test, update, run = <span class="n">true</span>, &blk)</a>
+        <a href="#do_until(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro" class="signature"><strong>do_until</strong>(init = <span class="s">&quot;&quot;</span>, test = <span class="s">&quot;&quot;</span>, update = <span class="s">&quot;&quot;</span>, run = <span class="n">true</span>, &blk)</a>
         
-          <div class="summary"><p>This <code><a href="toplevel.html#for(init,test,update,run=true,&blk)-macro">for</a></code> implementation provides a C-like looping structure.</p></div>
+          <div class="summary"><p>The <code><a href="toplevel.html#do_until(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">do_until</a></code> loop is like the <code><a href="toplevel.html#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">for</a></code> loop, except that it is an exit-controlled loop.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro" class="signature"><strong>for</strong>(init = <span class="s">&quot;&quot;</span>, test = <span class="s">&quot;&quot;</span>, update = <span class="s">&quot;&quot;</span>, run = <span class="n">true</span>, &blk)</a>
+        
+          <div class="summary"><p>This <code><a href="toplevel.html#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">for</a></code> implementation provides a C-like looping structure.</p></div>
         
       </li>
     
@@ -166,17 +173,51 @@
     Macro Detail
   </h2>
   
-    <div class="entry-detail" id="for(init,test,update,run=true,&amp;blk)-macro">
+    <div class="entry-detail" id="do_until(init=&amp;quot;&amp;quot;,test=&amp;quot;&amp;quot;,update=&amp;quot;&amp;quot;,run=true,&amp;blk)-macro">
       <div class="signature">
         
-        macro <strong>for</strong>(init, test, update, run = <span class="n">true</span>, &blk)
+        macro <strong>do_until</strong>(init = <span class="s">&quot;&quot;</span>, test = <span class="s">&quot;&quot;</span>, update = <span class="s">&quot;&quot;</span>, run = <span class="n">true</span>, &blk)
 
-        <a class="method-permalink" href="#for(init,test,update,run=true,&blk)-macro">#</a>
+        <a class="method-permalink" href="#do_until(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">#</a>
       </div>
       
         <div class="doc">
           
-          <p>This <code><a href="toplevel.html#for(init,test,update,run=true,&blk)-macro">for</a></code> implementation provides a C-like looping structure.</p>
+          <p>The <code><a href="toplevel.html#do_until(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">do_until</a></code> loop is like the <code><a href="toplevel.html#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">for</a></code> loop, except that it is an exit-controlled loop.
+This means that the condition to test for exiting the loop is checked at the end of the
+loop body instead of at the beginning of the loop body. This guarantees that the loop
+body will execute at least one time. Additionally, the loop will be exited <em>when</em> the
+condition is true.</p>
+
+<p>Thus, it is functionally the opposite of a <em>for</em> loop.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
+do_until(->{ t <span class="o">=</span> <span class="n">1</span> }, ->{ t <span class="o">&gt;</span> <span class="n">0</span> }, ->{ t += <span class="n">1</span> }) { puts t }
+
+<span class="c"># =&gt; 1</span>
+
+puts t
+
+<span class="c"># =&gt; 2</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="for(init=&amp;quot;&amp;quot;,test=&amp;quot;&amp;quot;,update=&amp;quot;&amp;quot;,run=true,&amp;blk)-macro">
+      <div class="signature">
+        
+        macro <strong>for</strong>(init = <span class="s">&quot;&quot;</span>, test = <span class="s">&quot;&quot;</span>, update = <span class="s">&quot;&quot;</span>, run = <span class="n">true</span>, &blk)
+
+        <a class="method-permalink" href="#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>This <code><a href="toplevel.html#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">for</a></code> implementation provides a C-like looping structure.</p>
 
 <p><em>for(<em>initialization</em>, <em>test</em>, <em>update</em>) { # block contents to iterate on }</em></p>
 
