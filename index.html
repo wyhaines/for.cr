@@ -82,6 +82,67 @@
 
 <p>It implements a simple declarative style for-like iteration loop called <code><a href="toplevel.html#iterate(*elements,&blk)-macro">iterate</a></code>, which traverses all of the elements of a collection, passing each in turn to the provided block. It also implements a C-style <code><a href="toplevel.html#for(init=&quot;&quot;,test=&quot;&quot;,update=&quot;&quot;,run=true,&blk)-macro">for</a></code> looping construct, which can be assigned to a variable for execution later (or for repeated execution), with <em>initialization</em>, <em>test</em>, and <em>update</em> code lines, and a body that runs as a closure with its own lexical scope.</p>
 
+<p>The C-style loop structure is useful. You can use it to make your code more terse. So, you can type this:</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;prime&quot;</span>
+<span class="k">require</span> <span class="s">&quot;for&quot;</span>
+
+prime <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
+do_until({max <span class="o">=</span> <span class="n">2147483647</span>}, ->(){prime.prime?}, {prime <span class="o">=</span> rand(max)})
+
+puts <span class="s">&quot;random prime number: </span><span class="i">#{</span>prime<span class="i">}</span><span class="s">&quot;</span></code></pre>
+
+<p>Instead of typing this (which is basically what is generated from the above code):</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;prime&quot;</span>
+<span class="k">require</span> <span class="s">&quot;for&quot;</span>
+
+prime <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
+->() <span class="k">do</span>
+  max <span class="o">=</span> <span class="n">2147483647</span>
+  loop <span class="k">do</span>
+    prime <span class="o">=</span> rand(max)
+    <span class="k">break</span> <span class="k">if</span> prime.prime?
+  <span class="k">end</span>
+<span class="k">end</span>.call
+
+puts <span class="s">&quot;random prime number: </span><span class="i">#{</span>prime<span class="i">}</span><span class="s">&quot;</span></code></pre>
+
+<p>Because <em>for</em> loops are encapsulated inside of a <em>Proc</em> closure, you can also assign them to variables, pass them around, call them at will, and reuse them. This has a lot of potential uses. Consider the following for one of them:</p>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;for&quot;</span>
+<span class="k">require</span> <span class="s">&quot;http/server&quot;</span>
+
+jobs <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>
+handlers <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> <span class="t">Proc</span>(<span class="t">Nil</span>)
+queue <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Tuple</span>(<span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>?, <span class="t">Channel</span>(<span class="t">Nil</span>))).<span class="k">new</span>(<span class="n">1000</span>)
+
+<span class="n">8</span>.times <span class="k">do</span>
+  handlers <span class="o">&lt;&lt;</span> <span class="k">for</span>(
+    {counter <span class="o">=</span> <span class="n">1</span>},
+    ->{ tup <span class="o">=</span> queue.receive? },
+    {counter += <span class="n">1</span>},
+    run: <span class="n">false</span>) <span class="k">do</span>
+    puts <span class="s">&quot;REQ </span><span class="i">#{</span>counter<span class="i">}</span><span class="s"> -- </span><span class="i">#{</span>tup[<span class="n">0</span>]<span class="i">}</span><span class="s">&quot;</span>
+    tup[<span class="n">1</span>].send(<span class="n">nil</span>)
+  <span class="k">end</span>
+<span class="k">end</span>
+
+server <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span>.<span class="k">new</span> <span class="k">do</span> <span class="o">|</span>context<span class="o">|</span>
+  pong <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Nil</span>).<span class="k">new</span>
+  queue.send({context, pong})
+  pong.receive <span class="c"># Worker has finished; return response</span>
+<span class="k">end</span>
+
+spawn(name: <span class="s">&quot;work loop&quot;</span>) <span class="k">do</span>
+  handlers.each { <span class="o">|</span>handler<span class="o">|</span> spawn(name: <span class="s">&quot;worker&quot;</span>) { handler.call } }
+<span class="k">end</span>
+
+server.bind_tcp <span class="n">8080</span>
+server.listen</code></pre>
+
+<p>That code simulates an HTTP server that accepts requests, each of which represents a job of some sort to be handled by a worker, and 8 workers, implemented as C-style <em>for</em> loops running in fibers.</p>
+
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
