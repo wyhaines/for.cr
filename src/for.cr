@@ -95,10 +95,8 @@ end
 macro for(init = "", test = "", update = "", run = true, &blk)
   ->() do
     {{ (init.is_a?(ProcLiteral) ? init.body : init).id }}
-    loop do
-      break unless {{ (test.is_a?(ProcLiteral) ? test.body : test).id }}
-
-      {{ blk.body.id }}
+    while {{ (test.is_a?(ProcLiteral) ? test.body : test).id }}
+      {{ blk.is_a?(Nop) ? "".id : blk.body.id }}
       {{ (update.is_a?(ProcLiteral) ? update.body : update).id }}
     end
   end{{ run ? ".call".id : "".id }}
@@ -127,7 +125,7 @@ macro do_until(init = "", test = "", update = "", run = true, &blk)
   ->() do
     {{ (init.is_a?(ProcLiteral) ? init.body : init).id }}
     loop do
-      {{ blk.body.id }}
+      {{ blk.is_a?(Nop) ? "".id : blk.body.id }}
       {{ (update.is_a?(ProcLiteral) ? update.body : update).id }}
 
       break if {{ (test.is_a?(ProcLiteral) ? test.body : test).id }}

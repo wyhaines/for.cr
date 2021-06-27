@@ -7,6 +7,76 @@
 This little shard implements a couple macros for additional for-loop-like looping constructs.
 
 It implements a simple declarative style for-like iteration loop called `iterate`, which traverses all of the elements of a collection, passing each in turn to the provided block. It also implements a C-style `for` looping construct, which can be assigned to a variable for execution later (or for repeated execution), with *initialization*, *test*, and *update* code lines, and a body that runs as a closure with its own lexical scope.
+
+The C-style loop structure is useful. You can use it to make your code more terse. So, you can type this:
+
+```crystal
+require "prime"
+require "for"
+
+prime = uninitialized Int32
+do_until({max = 2147483647}, ->(){prime.prime?}, {prime = rand(max)})
+
+puts "random prime number: #{prime}"
+```
+
+Instead of typing this (which is basically what is generated from the above code):
+
+
+```crystal
+require "prime"
+require "for"
+
+prime = uninitialized Int32
+->() do
+  max = 2147483647
+  loop do
+    prime = rand(max)
+    break if prime.prime?
+  end
+end.call
+
+puts "random prime number: #{prime}"
+```
+
+Because *for* loops are encapsulated inside of a *Proc* closure, you can also assign them to variables, pass them around, call them at will, and reuse them. This has a lot of potential uses. Consider the following for one of them:
+
+```crystal
+require "for"
+require "http/server"
+
+jobs = [] of HTTP::Server::Context
+handlers = [] of Proc(Nil)
+queue = Channel(Tuple(HTTP::Server::Context?, Channel(Nil))).new(1000)
+
+8.times do
+  handlers << for(
+    {counter = 1},
+    ->{ tup = queue.receive? },
+    {counter += 1},
+    run: false) do
+    puts "REQ #{counter} -- #{tup[0]}"
+    tup[1].send(nil)
+  end
+end
+
+server = HTTP::Server.new do |context|
+  pong = Channel(Nil).new
+  queue.send({context, pong})
+  pong.receive # Worker has finished; return response
+end
+
+spawn(name: "work loop") do
+  handlers.each { |handler| spawn(name: "worker") { handler.call } }
+end
+
+server.bind_tcp 8080
+server.listen
+```
+
+That code simulates an HTTP server that accepts requests, each of which represents a job of some sort to be handled by a worker, and 8 workers, implemented as C-style *for* loops running in fibers.
+
+
 ## Installation
 
 1. Add the dependency to your `shard.yml`:
