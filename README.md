@@ -207,6 +207,9 @@ puts t
 
 ```
 
+# Other Information
+
+There is also an [article on The Relicans that might have some additional context and details about how this shard works](https://www.therelicans.com/wyhaines/stretching-the-language-with-macros-implementing-a-for-loop-in-crystal-2c8k).
 ## Contributing
 
 1. Fork it (<https://github.com/wyhaines/for.cr/fork>)
