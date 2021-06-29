@@ -1,14 +1,13 @@
 require "../src/for"
 require "http/server"
 
-jobs = [] of HTTP::Server::Context
 handlers = [] of Proc(Nil)
 queue = Channel(Tuple(HTTP::Server::Context?, Channel(Nil))).new(1000)
 
 4.times do
   handlers << for(
     {counter = 1},
-    ->{ tup = queue.receive? },
+    ->{ tup = queue.receive? }, # ameba:disable Lint/UselessAssign
     {counter += 1},
     run: false) do
     puts "REQ #{counter} -- #{tup[0]}"
