@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
-<meta name="crystal_docs.project_version" content="main">
+<meta name="generator" content="Crystal Docs 1.7.3">
+<meta name="crystal_docs.project_version" content="0.2.1">
 <meta name="crystal_docs.project_name" content="for">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="for">
-  <title>for main</title>
+  <title>for 0.2.1</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        main
+        0.2.1
       </span>
     </div>
   </div>
@@ -68,37 +68,30 @@
 
 
 <div class="main-content">
-<p><img src="https://img.shields.io/github/workflow/status/wyhaines/for.cr/for.cr%20CI?style=for-the-badge&logo=GitHub" alt="for.cr CI"/>
-<a href="https://github.com/wyhaines/for.cr/releases"><img src="https://img.shields.io/github/release/wyhaines/for.cr.svg?style=for-the-badge" alt="GitHub release"/></a>
-<img src="https://img.shields.io/github/commits-since/wyhaines/for.cr/latest?style=for-the-badge" alt="GitHub commits since latest release (by SemVer)"/></p>
-
+<p><img src="https://img.shields.io/github/workflow/status/wyhaines/for.cr/for.cr%20CI?style=for-the-badge&amp;logo=GitHub" alt="for.cr CI" />
+<a href="https://github.com/wyhaines/for.cr/releases"><img src="https://img.shields.io/github/release/wyhaines/for.cr.svg?style=for-the-badge" alt="GitHub release" /></a>
+<img src="https://img.shields.io/github/commits-since/wyhaines/for.cr/latest?style=for-the-badge" alt="GitHub commits since latest release (by SemVer)" /></p>
 <h1><a id="for" class="anchor" href="#for">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>for</h1>
-
 <p>This little shard implements a couple macros for additional for-loop-like looping constructs.</p>
-
-<p>It implements a simple declarative style for-like iteration loop called <code><a href="toplevel.html#iterate(*elements,&blk)-macro">iterate</a></code>, which traverses all of the elements of a collection, passing each in turn to the provided block. It also implements a C-style <code><a href="toplevel.html#for(init=%22%22,test=%22%22,update=%22%22,run=true,&blk)-macro">for</a></code> looping construct, which can be assigned to a variable for execution later (or for repeated execution), with <em>initialization</em>, <em>test</em>, and <em>update</em> code lines, and a body that runs as a closure with its own lexical scope.</p>
-
+<p>It implements a simple declarative style for-like iteration loop called <code><a href="toplevel.html#iterate%28%2Aelements%2C%26blk%29-macro">iterate</a></code>, which traverses all of the elements of a collection, passing each in turn to the provided block. It also implements a C-style <code><a href="toplevel.html#for%28init%3D%22%22%2Ctest%3D%22%22%2Cupdate%3D%22%22%2Crun%3Dtrue%2C%26blk%29-macro">for</a></code> looping construct, which can be assigned to a variable for execution later (or for repeated execution), with <em>initialization</em>, <em>test</em>, and <em>update</em> code lines, and a body that runs as a closure with its own lexical scope.</p>
 <p>The C-style loop structure is useful. You can use it to make your code more terse. So, you can type this:</p>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;prime&quot;</span>
 <span class="k">require</span> <span class="s">&quot;for&quot;</span>
 
 prime <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
-do_until({max <span class="o">=</span> <span class="n">2147483647</span>}, ->(){prime.prime?}, {prime <span class="o">=</span> rand(max)})
+do_until({max <span class="o">=</span> <span class="n">2147483647</span>}, <span class="o">-&gt;</span>(){prime.prime?}, {prime <span class="o">=</span> rand(max)})
 
 puts <span class="s">&quot;random prime number: </span><span class="i">#{</span>prime<span class="i">}</span><span class="s">&quot;</span></code></pre>
-
 <p>Instead of typing this (which is basically what is generated from the above code):</p>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;prime&quot;</span>
 <span class="k">require</span> <span class="s">&quot;for&quot;</span>
 
 prime <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
-->() <span class="k">do</span>
+<span class="o">-&gt;</span>() <span class="k">do</span>
   max <span class="o">=</span> <span class="n">2147483647</span>
   loop <span class="k">do</span>
     prime <span class="o">=</span> rand(max)
@@ -107,29 +100,27 @@ prime <span class="o">=</span> <span class="k">uninitialized</span> <span class=
 <span class="k">end</span>.call
 
 puts <span class="s">&quot;random prime number: </span><span class="i">#{</span>prime<span class="i">}</span><span class="s">&quot;</span></code></pre>
-
 <p>Because <em>for</em> loops are encapsulated inside of a <em>Proc</em> closure, you can also assign them to variables, pass them around, call them at will, and reuse them. This has a lot of potential uses. Consider the following for one of them:</p>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;for&quot;</span>
 <span class="k">require</span> <span class="s">&quot;http/server&quot;</span>
 
 jobs <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>
 handlers <span class="o">=</span> <span class="o">[]</span> <span class="k">of</span> <span class="t">Proc</span>(<span class="t">Nil</span>)
-queue <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Tuple</span>(<span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>?, <span class="t">Channel</span>(<span class="t">Nil</span>))).<span class="k">new</span>(<span class="n">1000</span>)
+queue <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Tuple</span>(<span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span><span class="t">::</span><span class="t">Context</span>?, <span class="t">Channel</span>(<span class="t">Nil</span>))).new(<span class="n">1000</span>)
 
 <span class="n">8</span>.times <span class="k">do</span>
   handlers <span class="o">&lt;&lt;</span> <span class="k">for</span>(
     {counter <span class="o">=</span> <span class="n">1</span>},
-    ->{ tup <span class="o">=</span> queue.receive? },
-    {counter += <span class="n">1</span>},
+    <span class="o">-&gt;</span>{ tup <span class="o">=</span> queue.receive? },
+    {counter <span class="o">+=</span> <span class="n">1</span>},
     run: <span class="n">false</span>) <span class="k">do</span>
     puts <span class="s">&quot;REQ </span><span class="i">#{</span>counter<span class="i">}</span><span class="s"> -- </span><span class="i">#{</span>tup[<span class="n">0</span>]<span class="i">}</span><span class="s">&quot;</span>
     tup[<span class="n">1</span>].send(<span class="n">nil</span>)
   <span class="k">end</span>
 <span class="k">end</span>
 
-server <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span>.<span class="k">new</span> <span class="k">do</span> <span class="o">|</span>context<span class="o">|</span>
-  pong <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Nil</span>).<span class="k">new</span>
+server <span class="o">=</span> <span class="t">HTTP</span><span class="t">::</span><span class="t">Server</span>.new <span class="k">do</span> <span class="o">|</span>context<span class="o">|</span>
+  pong <span class="o">=</span> <span class="t">Channel</span>(<span class="t">Nil</span>).new
   queue.send({context, pong})
   pong.receive <span class="c"># Worker has finished; return response</span>
 <span class="k">end</span>
@@ -140,65 +131,50 @@ spawn(name: <span class="s">&quot;work loop&quot;</span>) <span class="k">do</sp
 
 server.bind_tcp <span class="n">8080</span>
 server.listen</code></pre>
-
 <p>That code simulates an HTTP server that accepts requests, each of which represents a job of some sort to be handled by a worker, and 8 workers, implemented as C-style <em>for</em> loops running in fibers.</p>
-
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Installation</h2>
-
-<ol><li>Add the dependency to your <code>shard.yml</code>:</li></ol>
-
-<p><code></code>`yaml
-   dependencies:</p>
-
-<pre><code class="language-crystal"> for:
-   github: wyhaines/for.cr</code></pre>
-
-<p><code></code>`</p>
-
-<ol><li>Run <code>shards install</code></li></ol>
-
+<ol>
+<li>
+<p>Add the dependency to your <code>shard.yml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  for:
+    github: wyhaines/for.cr</code></pre>
+</li>
+<li>
+<p>Run <code>shards install</code></p>
+</li>
+</ol>
 <h2><a id="usage" class="anchor" href="#usage">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Usage</h2>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;for&quot;</span></code></pre>
-
 <p>This defines four macros at the top level.</p>
-
 <h3><a id="using" class="anchor" href="#using">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>using</h3>
-
 <p>The first is <code>using TARGET</code>, which is a syntactic sugar macro. <code>using foo</code> results in inserting <code>foo</code> where it is executed.</p>
-
 <p>This means that the following are equivalent:</p>
-
 <pre><code class="language-crystal"><span class="k">for</span>(count, ary) { puts count }
 
 <span class="k">for</span>(count, using ary) { puts count }</code></pre>
-
 <p>And the following is acceptable syntax:</p>
-
 <pre><code class="language-crystal">ary <span class="o">=</span> (<span class="n">1</span>..<span class="n">10</span>).to_a
 
 pp using ary</code></pre>
-
 <h3><a id="iterate" class="anchor" href="#iterate">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>iterate</h3>
-
 <p>The second is a <em>for</em> style loop, called <em>iterate</em>, that iterates over all of the members of a collection.</p>
-
 <pre><code class="language-crystal">ary <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
 
 iterate(num, using ary) { puts num }
@@ -206,55 +182,43 @@ iterate(num, using ary) { puts num }
 <span class="c"># This is the same as:</span>
 
 ary.each { <span class="o">|</span>num<span class="o">|</span> puts num }</code></pre>
-
 <p>This works with any collection that has an <code>#each</code> method.</p>
-
-<h3><a id="for" class="anchor" href="#for">
+<h3><a id="for-1" class="anchor" href="#for-1">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>for</h3>
-
 <p>The third structure is a C-style <em>for</em> loop.</p>
-
 <p><em>for(<em>initialization</em>, <em>test</em>, <em>update</em>) { # block contents to iterate on }</em></p>
-
 <p>The <em>initialization</em>, *test, and <em>update</em> items are code that will be evaluated
 during the execution of the loop. The code should be provided as either a <em>String</em>
 or a <em>Proc(Nil, Nil)</em>.</p>
-
 <p>The <em>initialization</em> code gets executed a single time, before the loop starts, and
 can be used to setup any state that is required before the loop runs.</p>
-
 <p>The <em>test</em> code will be evaluated at the start of each iteration. If it evaluates to
 <em>false</em>, then the loop body will execute. If it evaluates to <em>true</em> then the loop
 exits immediately.</p>
-
 <p>The <em>update</em> code executes after the loop body, and can be used to change counters
 or other state that the <em>test</em> code may depend on to determine if the loop has finished
 execution.</p>
-
 <p>This structure could be legitimately useful. The loop so created is a closure, and
 can be captured in a variable.</p>
-
 <pre><code class="language-crystal"><span class="c"># Specify code with strings.</span>
 <span class="k">for</span>(<span class="s">%(t = 0)</span>, <span class="s">%( t &lt; 10)</span>, <span class="s">%(t += 1)</span>) <span class="k">do</span>
   <span class="c"># Do Stuff</span>
 <span class="k">end</span></code></pre>
-
 <pre><code class="language-crystal"><span class="c"># Specify code with procs, and leverage the fact that it is a closure.</span>
 t <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
-<span class="k">for</span>(->{ t <span class="o">=</span> <span class="n">0</span> }, ->{ t <span class="o">&lt;</span> <span class="n">10</span> }, ->{ t += <span class="n">1</span> }) <span class="k">do</span>
+<span class="k">for</span>(<span class="o">-&gt;</span>{ t <span class="o">=</span> <span class="n">0</span> }, <span class="o">-&gt;</span>{ t <span class="o">&lt;</span> <span class="n">10</span> }, <span class="o">-&gt;</span>{ t <span class="o">+=</span> <span class="n">1</span> }) <span class="k">do</span>
   <span class="c"># Do Stuff</span>
 <span class="k">end</span>
 puts t
 <span class="c"># =&gt; 10</span></code></pre>
-
 <pre><code class="language-crystal"><span class="c"># The *for* loop can be assigned to a variable and called later.</span>
 ary <span class="o">=</span> (<span class="n">1</span>..<span class="n">10</span>).to_a
 
 t <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
-transform <span class="o">=</span> <span class="k">for</span>(->{ t <span class="o">=</span> <span class="n">0</span> }, ->{ t <span class="o">&lt;</span> <span class="n">10</span> }, ->{ t += <span class="n">1</span> }, run: <span class="n">false</span>) { ary[t] <span class="o">=</span> ary[t] <span class="o">*</span> ary[t] }
+transform <span class="o">=</span> <span class="k">for</span>(<span class="o">-&gt;</span>{ t <span class="o">=</span> <span class="n">0</span> }, <span class="o">-&gt;</span>{ t <span class="o">&lt;</span> <span class="n">10</span> }, <span class="o">-&gt;</span>{ t <span class="o">+=</span> <span class="n">1</span> }, run: <span class="n">false</span>) { ary[t] <span class="o">=</span> ary[t] <span class="o">*</span> ary[t] }
 
 <span class="c"># Do some stuff here...</span>
 
@@ -262,19 +226,15 @@ transform.call
 
 pp ary
 <span class="c"># =&gt; [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]</span></code></pre>
-
 <h3><a id="do-until" class="anchor" href="#do-until">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>do_until</h3>
-
-<p>The <code><a href="toplevel.html#do_until(init=%22%22,test=%22%22,update=%22%22,run=true,&blk)-macro">do_until</a></code> loop is like the <code><a href="toplevel.html#for(init=%22%22,test=%22%22,update=%22%22,run=true,&blk)-macro">for</a></code> loop, except that it is an exit-controlled loop. This means that the condition to test for exiting the loop is checked at the end of the loop body instead of at the beginning of the loop body. This guarantees that the loop body will execute at least one time. Additionally, the loop will be exited <em>when</em> the condition is true.</p>
-
+<p>The <code><a href="toplevel.html#do_until%28init%3D%22%22%2Ctest%3D%22%22%2Cupdate%3D%22%22%2Crun%3Dtrue%2C%26blk%29-macro">do_until</a></code> loop is like the <code><a href="toplevel.html#for%28init%3D%22%22%2Ctest%3D%22%22%2Cupdate%3D%22%22%2Crun%3Dtrue%2C%26blk%29-macro">for</a></code> loop, except that it is an exit-controlled loop. This means that the condition to test for exiting the loop is checked at the end of the loop body instead of at the beginning of the loop body. This guarantees that the loop body will execute at least one time. Additionally, the loop will be exited <em>when</em> the condition is true.</p>
 <p>Thus, it is functionally the opposite of a <em>for</em> loop.</p>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="k">uninitialized</span> <span class="t">Int32</span>
-do_until(->(){ t <span class="o">=</span> <span class="n">1</span> }, ->(){ t <span class="o">&gt;</span> <span class="n">0</span> }, ->{ t += <span class="n">1</span>}) {puts t}
+do_until(<span class="o">-&gt;</span>(){ t <span class="o">=</span> <span class="n">1</span> }, <span class="o">-&gt;</span>(){ t <span class="o">&gt;</span> <span class="n">0</span> }, <span class="o">-&gt;</span>{ t <span class="o">+=</span> <span class="n">1</span>}) {puts t}
 
 <span class="c"># =&gt; 1</span>
 
@@ -282,33 +242,34 @@ puts t
 
 <span class="c"># =&gt; 2</span>
 </code></pre>
-
 <h1><a id="other-information" class="anchor" href="#other-information">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Other Information</h1>
-
 <p>There is also an <a href="https://www.therelicans.com/wyhaines/stretching-the-language-with-macros-implementing-a-for-loop-in-crystal-2c8k">article on The Relicans that might have some additional context and details about how this shard works</a>.</p>
-
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributing</h2>
-
-<ol><li>Fork it (&lt;https://github.com/wyhaines/for.cr/fork>)</li><li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li><li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li><li>Push to the branch (<code>git push origin my-new-feature</code>)</li><li>Create a new Pull Request</li></ol>
-
+<ol>
+<li>Fork it (<a href="https://github.com/wyhaines/for.cr/fork">https://github.com/wyhaines/for.cr/fork</a>)</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
 <h2><a id="contributors" class="anchor" href="#contributors">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributors</h2>
-
-<ul><li><a href="https://github.com/wyhaines">Kirk Haines</a> - creator and maintainer</li></ul>
-
-<p><img src="https://img.shields.io/github/languages/code-size/wyhaines/for.cr?style=for-the-badge" alt="GitHub code size in bytes"/>
-<img src="https://img.shields.io/github/issues/wyhaines/for.cr?style=for-the-badge" alt="GitHub issues"/>
+<ul>
+<li><a href="https://github.com/wyhaines">Kirk Haines</a> - creator and maintainer</li>
+</ul>
+<p><img src="https://img.shields.io/github/languages/code-size/wyhaines/for.cr?style=for-the-badge" alt="GitHub code size in bytes" />
+<img src="https://img.shields.io/github/issues/wyhaines/for.cr?style=for-the-badge" alt="GitHub issues" />
 git@github.com:h2o/picohttpparser.git</p>
 </div>
 </body>
