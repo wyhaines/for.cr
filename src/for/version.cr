@@ -1,3 +1,5 @@
 module For
-  VERSION = "0.2.1"
+  {% begin %}
+  VERSION = {{ read_file("#{__DIR__}/../../VERSION").chomp }}
+  {% end %}
 end
